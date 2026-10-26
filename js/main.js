@@ -152,6 +152,25 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- Product image gallery ---------- */
+  function initGallery() {
+    document.querySelectorAll('.product-gallery').forEach(function (gallery) {
+      var main = gallery.querySelector('.product-media img');
+      var thumbs = gallery.querySelectorAll('.product-thumbs button');
+      if (!main || !thumbs.length) return;
+
+      thumbs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var img = btn.querySelector('img');
+          main.src = img.src;
+          main.alt = img.alt;
+          thumbs.forEach(function (t) { t.setAttribute('aria-pressed', 'false'); });
+          btn.setAttribute('aria-pressed', 'true');
+        });
+      });
+    });
+  }
+
   /* ---------- Footer year ---------- */
   function initYear() {
     var el = document.getElementById('year');
@@ -164,6 +183,7 @@
     initFaq();
     initForm();
     initReveal();
+    initGallery();
     initYear();
   });
 })();
