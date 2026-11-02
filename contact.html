@@ -103,6 +103,10 @@
         <!-- Form -->
         <div class="form-card reveal">
           <form id="contact-form" novalidate>
+            <!-- Web3Forms: delivers submissions to crescpel@gmail.com -->
+            <input type="hidden" name="access_key" value="cdaf1eca-be73-4bf8-8bd4-f8c1c772c567" />
+            <input type="hidden" name="from_name" value="CRESCPEL Website" />
+            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
             <div class="form-row">
               <div class="field">
                 <label for="name">Full name</label>
@@ -119,11 +123,11 @@
             <div class="field">
               <label for="subject">Subject</label>
               <select id="subject" name="subject">
-                <option value="general">General inquiry</option>
-                <option value="product">Product question</option>
-                <option value="support">Order &amp; support</option>
-                <option value="suggestion">Product suggestion</option>
-                <option value="wholesale">Wholesale / partnership</option>
+                <option value="General inquiry">General inquiry</option>
+                <option value="Product question">Product question</option>
+                <option value="Order &amp; support">Order &amp; support</option>
+                <option value="Product suggestion">Product suggestion</option>
+                <option value="Wholesale / partnership">Wholesale / partnership</option>
               </select>
             </div>
 

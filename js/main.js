@@ -107,27 +107,45 @@
       });
 
       if (!allValid) {
-        if (status) {
-          status.textContent = 'Please correct the highlighted fields and try again.';
-          status.style.background = '#fef2f2';
-          status.style.borderColor = '#fecaca';
-          status.style.color = '#b91c1c';
-          status.classList.add('show');
-        }
+        showStatus('Please correct the highlighted fields and try again.', true);
         return;
       }
 
-      // No backend — simulate a successful submission.
-      if (status) {
-        status.textContent = 'Thank you! Your message has been sent. We’ll reply within 1–2 business days.';
-        status.style.background = '';
-        status.style.borderColor = '';
-        status.style.color = '';
-        status.classList.add('show');
-      }
-      form.reset();
-      form.querySelectorAll('.field').forEach(function (f) { f.classList.remove('invalid'); });
+      // Deliver via Web3Forms (static hosting has no backend of its own)
+      var button = form.querySelector('button[type="submit"]');
+      var buttonText = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (!data.success) throw new Error(data.message);
+          showStatus('Thank you! Your message has been sent. We’ll reply within 1–2 business days.', false);
+          form.reset();
+          form.querySelectorAll('.field').forEach(function (f) { f.classList.remove('invalid'); });
+        })
+        .catch(function () {
+          showStatus('Sorry, your message could not be sent. Please try again or email us at crescpel@gmail.com.', true);
+        })
+        .then(function () {
+          button.disabled = false;
+          button.textContent = buttonText;
+        });
     });
+
+    function showStatus(text, isError) {
+      if (!status) return;
+      status.textContent = text;
+      status.style.background = isError ? '#fef2f2' : '';
+      status.style.borderColor = isError ? '#fecaca' : '';
+      status.style.color = isError ? '#b91c1c' : '';
+      status.classList.add('show');
+    }
   }
 
   /* ---------- Scroll reveal ---------- */
